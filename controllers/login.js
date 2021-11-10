@@ -4,6 +4,19 @@ module.exports = {
     loginHandler: async (req, res) => {
         const { email, password } = req.body
         // search the entry in the DB
-        res.send("You have hit the login route!")
+        try {
+            const user = await User.findOne({
+                where: { email, password }
+            })
+            
+            if (user == null) {
+                return res.status(200).json({ error: 'Invalid credentials!' })
+            }
+
+            return res.status(200).json({...user.dataValues, password: undefined})
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({ error: 'Login Failed!' })
+        }
     }
 }

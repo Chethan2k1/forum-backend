@@ -2,7 +2,7 @@ const express = require('express')
 const { sequelize } = require('./models')
 const { route } = require('./routes')
 const app = express()
-const port = 3000
+const port = 4000
 
 route(app)
 app.listen(port, async () => {

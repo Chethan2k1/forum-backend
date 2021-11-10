@@ -3,13 +3,35 @@ const { User } = require('../models')
 module.exports = {
     registerHandler: async (req, res) => {
         const { name, email, password } = req.body
-        // create an entry in the DB
+        // search for users with that email
         try {
-            const user = await User.create({ name, email, password, bbpoints : 0})
-            return res.status(200).json(user)
+            let user
+
+            user = await User.findOne({
+                where: { name }
+            })
+
+            if (user != null)
+                return res.status(200).json({ error: "Username Taken! Try picking another one" })
+
+            user = await User.findOne({
+                where: { email }
+            })
+
+            if (user != null)
+                return res.status(200).json({ error: "Account linked to this email exists!" })
         } catch (err) {
             console.log(err)
-            return res.status(500).send("Failed to create new user!")
+            return res.status(500).json({ error: "Failed to create new user!" })
+        }
+        // create an entry in the DB
+        try {
+            const user = await User.create({ name, email, password, bbpoints: 0 })
+            // not to return the password
+            return res.status(200);
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({ error: "Failed to create new user!" })
         }
     }
 }
