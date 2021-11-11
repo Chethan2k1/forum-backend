@@ -13,7 +13,7 @@ module.exports = {
                 return res.status(200).json({ error: 'Invalid credentials!' })
             }
 
-            return res.status(200).json({...user.dataValues, password: undefined})
+            return res.status(200).json({...user.dataValues, id: undefined, password: undefined})
         } catch (err) {
             console.log(err)
             return res.status(500).json({ error: 'Login Failed!' })

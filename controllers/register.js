@@ -2,13 +2,14 @@ const { User } = require('../models')
 
 module.exports = {
     registerHandler: async (req, res) => {
-        const { name, email, password } = req.body
+        console.log(req.body)
+        const { username, email, password } = req.body
         // search for users with that email
         try {
             let user
 
             user = await User.findOne({
-                where: { name }
+                where: { username }
             })
 
             if (user != null)
@@ -26,7 +27,7 @@ module.exports = {
         }
         // create an entry in the DB
         try {
-            const user = await User.create({ name, email, password, bbpoints: 0 })
+            const user = await User.create({ username, email, password, bbpoints: 0 })
             // not to return the password
             return res.status(200);
         } catch (err) {

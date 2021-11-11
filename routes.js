@@ -1,6 +1,8 @@
 const express = require('express')
 const { loginHandler } = require('./controllers/login')
 const { registerHandler } = require('./controllers/register')
+const { createpostHandler } = require('./controllers/createpost')
+const { showpostsHandler } = require('./controllers/showposts')
 
 module.exports = {
     route: (app) => {
@@ -8,5 +10,7 @@ module.exports = {
         app.use(express.json())
         app.post('/login', loginHandler)
         app.post('/register', registerHandler)
+        app.post('/createpost', createpostHandler)
+        app.get('/posts', showpostsHandler)
     }
 }

@@ -2,10 +2,11 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   // Model has custom methods that can do CRUD operations
-  class User extends Model {}
-  
+  class User extends Model { }
+
   User.init({
     id: {
       type: DataTypes.INTEGER,
@@ -13,12 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       allowNull: false
     },
-    name: { 
+    username: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    email: { 
-      type: DataTypes.STRING, 
+    email: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     password: {
@@ -31,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    tabelName: 'users',
+    tableName: 'users',
     modelName: 'User',
     timestamps: false
   });
