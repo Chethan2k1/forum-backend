@@ -1,4 +1,5 @@
 {
+  "JWTSECRET": null,
     "development": {
       "username": "root",
       "password": "password",

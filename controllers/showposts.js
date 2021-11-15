@@ -4,6 +4,7 @@ module.exports = {
     showpostsHandler: async (req, res) => {
         // search the entry in the DB
         try {
+            // remove postContent and id
             const posts = await Post.findAll({
                 order: [
                     ['createdAt', 'DESC'],
