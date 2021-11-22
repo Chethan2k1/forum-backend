@@ -1,7 +1,7 @@
 const { Comment } = require('../models')
 
 module.exports = {
-    getcommentsHandler: async (req, res) => {
+    getCommentsHandler: async (req, res) => {
         const { postid } = req.query
         // create an entry in the DB
         // remove id, parentid from the final result

@@ -1,7 +1,7 @@
 const { Post } = require('../models')
 
 module.exports = {
-    showpostsHandler: async (req, res) => {
+    showPostsHandler: async (req, res) => {
         // search the entry in the DB
         try {
             // remove postContent and id

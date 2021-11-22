@@ -1,16 +1,14 @@
 const { User, Post, Comment } = require('../models')
 
 module.exports = {
-    createcommentHandler: async (req, res) => {
-        const { id, ppostid, content } = req.body
-        console.log("Inside createcommmentHandler")
-        console.log(req.body)
+    createCommentHandler: async (req, res) => {
+        const { userid, ppostid, content } = req.body
         // create an entry in the DB
         // get username with the id
         let user;
         try {
             user = await User.findOne({
-                where: { id }
+                where: { userid }
             })
 
             if (user == null) {

@@ -1,7 +1,7 @@
 const { Post } = require('../models')
 
 module.exports = {
-    getpostHandler: async (req, res) => {
+    getPostHandler: async (req, res) => {
         const { postid } = req.query
         // create an entry in the DB
         try {

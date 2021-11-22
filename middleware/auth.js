@@ -13,10 +13,10 @@ module.exports = {
         try {
             jwt.verify(token, config.JWTSECRET);
             // authentication success, decode the token
-            const id = jwt.decode(token).id;
-            req.body = { ...req.body, id };
+            req.body = { ...req.body, ...jwt.decode(token) };
             next();
         } catch (err) {
+            console.log(err);
             res.status(403).send({ error: 'Unauthorized Access' });
         }
     }

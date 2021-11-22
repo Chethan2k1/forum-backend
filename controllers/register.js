@@ -2,7 +2,6 @@ const { User } = require('../models')
 
 module.exports = {
     registerHandler: async (req, res) => {
-        console.log(req.body)
         const { username, email, password } = req.body
         // search for users with that email
         try {
@@ -29,7 +28,7 @@ module.exports = {
         try {
             const user = await User.create({ username, email, password, bbpoints: 0 })
             // not to return the password
-            return res.status(200);
+            return res.status(200).json({ userid: user.userid });
         } catch (err) {
             console.log(err)
             return res.status(500).json({ error: "Failed to create new user!" })
