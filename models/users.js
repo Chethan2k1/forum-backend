@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
     bbpoints: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    isadmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   }, {
     sequelize,

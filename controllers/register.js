@@ -26,7 +26,7 @@ module.exports = {
         }
         // create an entry in the DB
         try {
-            const user = await User.create({ username, email, password, bbpoints: 0 })
+            const user = await User.create({ username, email, password, bbpoints: 0, isadmin: false })
             // not to return the password
             return res.status(200).json({ userid: user.userid });
         } catch (err) {

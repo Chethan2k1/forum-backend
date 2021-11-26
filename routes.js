@@ -14,9 +14,14 @@ const { removePostHandler } = require('./controllers/removepost')
 const { removeCommentHandler } = require('./controllers/removecomment')
 const { removeReportHandler } = require('./controllers/removereport')
 const { getReportedHandler } = require('./controllers/fetchreported')
+const { getUsersList } = require('./controllers/fetchuserlist')
+const { removeCategoryHandler } = require('./controllers/removecategory')
 // middleware
 const { jwtverify } = require('./middleware/auth')
 const { modverify } = require('./middleware/mod')
+const { adminverify } = require('./middleware/admin')
+const { createModeratorHandler } = require('./controllers/createmoderator')
+const { removeModeratorHandler } = require('./controllers/removemoderator')
 
 module.exports = {
     route: (app) => {
@@ -28,7 +33,7 @@ module.exports = {
         app.get('/post', getPostHandler)
         app.get('/getcomments', getCommentsHandler)
         app.get('/getcategories', getCategoryList)
-        app.post('/createcat', createCategoryHandler) // should be admin only
+        app.get('/getusers', getUsersList)
         // routes here after need authorization
         app.use(jwtverify)
         app.post('/report', createReportHandler)
@@ -40,5 +45,11 @@ module.exports = {
         app.post('/unreport', removeReportHandler)
         app.post('/removepost', removePostHandler)
         app.post('/removecomment', removeCommentHandler)
+        // routes here need admin authorization
+        app.use(adminverify)
+        app.post('/createcat', createCategoryHandler)
+        app.post('/removecat', removeCategoryHandler)
+        app.post('/createmod', createModeratorHandler)
+        app.post('/removemod', removeModeratorHandler)
     }
 }

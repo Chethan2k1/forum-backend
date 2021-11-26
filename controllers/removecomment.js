@@ -1,30 +1,42 @@
 const { Comment, Report } = require('../models')
 
 module.exports = {
-    removeCommentHandler: (req, res) => {
-        // removes the row with this commmentid
-        // use transactions to rollback any changes in case of error
-        const { commmentid } = req.commmentid;
-        try {
-            Comment.destroy({
-                where: {
-                    commmentid
-                }
-            })
-        } catch (err) {
-            console.log(err)
-            return res.status(500).json({ error: "Error in removing Comment!" })
-        }
+    removeCommentHandler: async (req, res) => {
+        const { commentid } = req.body;
 
-        // checks and removes a report if with id exists
         try {
-            Report.destroy({
+            const comment = await Comment.findOne({
                 where: {
-                    id: commmentid,
-                    ispost: false
+                    commentid
                 }
             })
-            return res.json({})
+
+            const id = comment.dataValues.id
+            try {
+                await Comment.destroy({
+                    where: {
+                        id
+                    }
+                })
+
+                // checks and removes a report if with id exists
+                try {
+                    await Report.destroy({
+                        where: {
+                            reportedid: id,
+                            ispost: false
+                        }
+                    })
+
+                    return res.json({})
+                } catch (err) {
+                    console.log(err)
+                    return res.status(500).json({ error: "Error in removing Comment!" })
+                }
+            } catch (err) {
+                console.log(err)
+                return res.status(500).json({ error: "Error in removing Comment!" })
+            }
         } catch (err) {
             console.log(err)
             return res.status(500).json({ error: "Error in removing Comment!" })

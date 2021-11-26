@@ -10,7 +10,6 @@ module.exports = {
             const categories = await Category.findAll({
                 limit:5,
                 where: {
-                    // name: keyword 
                     name: {[Op.like]: `${keyword}%`} 
                 }
             })

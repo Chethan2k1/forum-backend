@@ -24,21 +24,21 @@ module.exports = {
                     }
                 })
 
-                if (mod.length == 0) return res.status(404).json({ error: "Unauthorized Access!" })
-                else {
-                    mod.forEach(function (itm) {
-                        mod_categories.push(itm.dataValues.category)
-                    })
 
-                    // create the mod_categories array
-                    req.body = { ...req.body, mod_categories }
-                    // successfullly found the user
-                    // now we have to create a jwt token for the user
-                    const key = config.JWTSECRET;
-                    const token = jwt.sign({ userid: user.dataValues.userid, mod_categories }, key, { expiresIn: "2d" });
-                    return res.status(200).json({ ...user.dataValues, token, id: undefined, password: undefined })
-                    next();
-                }
+                mod.forEach(function (itm) {
+                    mod_categories.push(itm.dataValues.category)
+                })
+
+                // create the mod_categories array
+                req.body = { ...req.body, mod_categories }
+                // successfullly found the user
+                // now we have to create a jwt token for the user
+                const key = config.JWTSECRET;
+                // if admin just add * as a category for mod_categories
+                if(user.dataValues.isadmin) mod_categories = ['*']
+                const data = { userid: user.dataValues.userid, mod_categories, isadmin: user.dataValues.isadmin }
+                const token = jwt.sign(data, key, { expiresIn: "2d" });
+                return res.status(200).json({ ...user.dataValues, mod_categories, token, id: undefined, password: undefined })
             } catch (err) {
                 console.log(err);
                 return res.status(500).json({ error: "Internal Server Error!" })

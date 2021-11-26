@@ -8,17 +8,16 @@ module.exports = {
         let posts = [], comments = [];
         await Promise.all(mod_categories.map(async (category) => {
             try {
+                let where = {}
+                if (category != '*') where = { category, ispost: true }
                 // get all reported posts of that category
                 const reported_post_ids = await Report.findAll({
                     attributes: ['reportedid'],
-                    where: {
-                        category,
-                        ispost: true
-                    }
+                    where
                 })
 
-                if(reported_post_ids.length == 0) return;
-                
+                if (reported_post_ids.length == 0) return;
+
                 return await Promise.all(reported_post_ids.map((itm) => {
                     post_ids.push(itm.dataValues.reportedid)
                 }))
@@ -29,16 +28,15 @@ module.exports = {
 
         await Promise.all(mod_categories.map(async (category) => {
             try {
+                let where = {}
+                if (category != '*') where = { category, ispost: false }
                 // get all reported comments of that category
                 const reported_comment_ids = await Report.findAll({
                     attributes: ['reportedid'],
-                    where: {
-                        category: category,
-                        ispost: false
-                    }
+                    where
                 })
 
-                if(reported_comment_ids.length == 0) return;
+                if (reported_comment_ids.length == 0) return;
 
                 return await Promise.all(reported_comment_ids.map((itm) => {
                     comment_ids.push(itm.dataValues.reportedid)
@@ -56,7 +54,8 @@ module.exports = {
                     }
                 })
 
-                posts.push(post.dataValues)
+                if (post != null)
+                    posts.push(post.dataValues)
             } catch (err) {
                 console.log(err);
             }
@@ -70,12 +69,13 @@ module.exports = {
                     }
                 })
 
-                comments.push(comment.dataValues)
+                if(comment != null)
+                    comments.push(comment.dataValues)
             } catch (err) {
                 console.log(err);
             }
         }))
 
-        return res.status(200).json({posts, comments})
+        return res.status(200).json({ posts, comments })
     }
 }

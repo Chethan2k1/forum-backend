@@ -35,10 +35,16 @@ module.exports = {
                 return res.status(500).json({ error: "Failed to report!" })
             }
         }
-        
         // valid reportedid
         // create the report
+        // check if the report already exists
         try {
+            const report = await Report.findOne({
+                where: { reportedid: reported_id, category, ispost }
+            })
+
+            if(report != null) return res.status(200).json({})
+
             await Report.create({ reportedid: reported_id, category, ispost })
             return res.status(200).json({});
         } catch (err) {
