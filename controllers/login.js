@@ -1,6 +1,7 @@
 const { User, Moderator } = require('../models')
-const config = require(__dirname + '/../config/config.json');
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
+const key = process.env.JWT_SECRET
 
 module.exports = {
     loginHandler: async (req, res) => {
@@ -33,7 +34,6 @@ module.exports = {
                 req.body = { ...req.body, mod_categories }
                 // successfullly found the user
                 // now we have to create a jwt token for the user
-                const key = config.JWTSECRET;
                 // if admin just add * as a category for mod_categories
                 if(user.dataValues.isadmin) mod_categories = ['*']
                 const data = { userid: user.dataValues.userid, mod_categories, isadmin: user.dataValues.isadmin }

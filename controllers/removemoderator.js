@@ -1,4 +1,3 @@
-const { restart } = require('nodemon')
 const { User, Category, Moderator } = require('../models')
 
 module.exports = {
