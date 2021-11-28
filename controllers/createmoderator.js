@@ -35,7 +35,7 @@ module.exports = {
 
         // check if the moderator already exists
         try {
-            const mod = Moderator.findOne({
+            const mod = await Moderator.findOne({
                 where: {
                     userid: user.dataValues.id,
                     category
