@@ -36,8 +36,10 @@ module.exports = {
         // check if the moderator already exists
         try {
             const mod = Moderator.findOne({
-                userid: user.dataValues.id,
-                category
+                where: {
+                    userid: user.dataValues.id,
+                    category
+                }
             })
 
             if (mod != null) return res.status(200).json({});
