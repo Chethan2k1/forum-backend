@@ -22,6 +22,10 @@ const { modverify } = require('./middleware/mod')
 const { adminverify } = require('./middleware/admin')
 const { createModeratorHandler } = require('./controllers/createmoderator')
 const { removeModeratorHandler } = require('./controllers/removemoderator')
+const { getBannedWordsHandler } = require('./controllers/fetchbannedword')
+const createbannedword = require('./controllers/createbannedword')
+const { removeBannedWordsHandler } = require('./controllers/removebannedword')
+const { createBannedWordHandler } = require('./controllers/createbannedword')
 
 module.exports = {
     route: (app) => {
@@ -34,6 +38,9 @@ module.exports = {
         app.get('/getcomments', getCommentsHandler)
         app.get('/getcategories', getCategoryList)
         app.get('/getusers', getUsersList)
+        app.get('/getbannedwords', getBannedWordsHandler)
+        app.post('/createbannedword', createBannedWordHandler)
+        app.post('/removebannedword', removeBannedWordsHandler)
         // routes here after need authorization
         app.use(jwtverify)
         app.post('/report', createReportHandler)

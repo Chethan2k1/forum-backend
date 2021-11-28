@@ -33,6 +33,19 @@ module.exports = {
             return res.status(500).json({ error: "Failed to create a new moderator!" })
         }
 
+        // check if the moderator already exists
+        try {
+            const mod = Moderator.findOne({
+                userid: user.dataValues.id,
+                category
+            })
+
+            if (mod != null) return res.status(200).json({});
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({ error: "Failed to create a new moderator!" })
+        }
+
         // create the entry in the moderator table
         try {
             await Moderator.create({ userid: user.dataValues.id, category })

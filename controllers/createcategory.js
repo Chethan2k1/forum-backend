@@ -10,7 +10,7 @@ module.exports = {
             })
 
             if (category != null)
-                return res.status(200)
+                return res.status(200).json({})
         } catch (err) {
             console.log(err)
             return res.status(500).json({ error: "Failed to create a new category!" })
@@ -19,7 +19,7 @@ module.exports = {
         try {
             const category = await Category.create({ name })
             // not to return the password
-            return res.status(200);
+            return res.status(200).json({});
         } catch (err) {
             console.log(err)
             return res.status(500).json({ error: "Failed to create a new category!" })

@@ -41,7 +41,7 @@ module.exports = {
                 }
             })
 
-            return res.json({})
+            return res.status(200).json({})
         } catch (err) {
             console.log(err)
             return res.status(500).json({ error: "Failed to remove Moderator!" })
